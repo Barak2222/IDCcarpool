@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>IDC carpool</title>
+    <link rel="stylesheet" href="css/framework7.ios.min.css">
+    <link rel="stylesheet" href="css/my-app.css">
+  </head>
+  <body>
+    <div class="statusbar-overlay"></div>
+    <div class="panel-overlay"></div>
+    <!-- NAVIGATION MENU -->
+    <div class="panel panel-left panel-reveal">
+      <div class="content-block">
+        <p><b>IDC CARPOOL 2016</b></p>
+        <p><a href="#index" class="close-panel">Rides feed</a></p>
+        <p><a href="#SomeProfile" class="close-panel">My Profile</a></p>
+        <p><a href="#about" class="close-panel">about</a></p>
+        <p><a href="#" class="close-panel">Donate</a></p>
+      </div>
+    </div>
+    <!-- Right panel with cover effect-->
+    <div class="panel panel-right panel-cover">
+      <div class="content-block">
+        <p>Right panel content goes here</p>
+      </div>
+    </div>
+    <div class="views">
+      <div class="view view-main">
+        <!-- Top Navbar-->
+        <div class="navbar">
+          <!-- Navbar inner for Index page-->
+          <div data-page="index" class="navbar-inner">
+            
+            <div class="left">
+              <a href="#notifications"><img class="notificationIcon" src="img/notificationOn.png" /><span id="notifications">4</span></a>
+            </div>
+            <!-- We have home navbar without left link-->
+            <div class="center sliding">IDC Carpool</div>
+            <div class="right">
+              <!-- Right link contains only icon - additional "icon-only" class--><a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
+            </div>
+          </div>
+
+
+
+          <!-- Navbar inner for ride page-->
+          <div data-page="ride" class="navbar-inner cached">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+            <div class="center sliding">Ride Info</div>
+          </div>
+          <!-- Navbar inner for Notifications page-->
+          <div data-page="notifications" class="navbar-inner cached">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+            <div class="center sliding">Notifications</div>
+          </div>
+          <!-- Navbar inner for About page-->
+          <div data-page="about" class="navbar-inner cached">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+            <div class="center sliding">About Us</div>
+          </div>
+          <!-- Navbar inner for SomeProfile page-->
+          <div data-page="SomeProfile" class="navbar-inner cached">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+            <div class="center sliding">SomeProfile</div>
+          </div>
+          <!-- Navbar inner for Form page-->
+          <div data-page="form" class="navbar-inner cached">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+            <div class="center sliding">New Post</div>
+          </div>
+        </div>
+
+
+        <!-- Pages-->
+        <div class="pages navbar-through toolbar-through">
+          <!-- Index Page-->
+          <div data-page="index" class="page with-subnavbar">
+            <div class="center">Swipeable Tabs</div>
+            <div class="subnavbar">
+              <div class="buttons-row">
+                <a href="#tab1" class="button active tab-link">TO IDC</a>
+                <a href="#tab2" class="button tab-link">FROM IDC</a>
+              </div>
+            </div>
+            <div class="tabs-swipeable-wrap">
+              <div class="tabs">
+                <!-- TO IDC -->
+                <div id="tab1" class="page-content tab active">
+
+                  <div class="content-block-title">Today</div>
+                  <div class="list-block media-list inset">
+                    <ul>
+                      <li id="ride482" class="rideComponent">
+                        <a href="#ride" class="item-link item-content">
+                          <div class="item-media"><img src="img/pedestrian.png" width="44"></div>
+                          <div class="item-inner">
+                            <div class="item-title-row">
+                              <div class="item-title">Raanana</div>
+                            </div>
+                            <div class="item-subtitle">Sapir Hecht<span class="timeSpan">Requesting 08:15</span></div>
+                          </div>
+                        </a>
+                      </li>
+                      <li id="ride483" class="rideComponent">
+                        <a href="#ride" class="item-link item-content">
+                          <div class="item-media"><img src="img/driver.png" width="44"></div>
+                          <div class="item-inner">
+                            <div class="item-title-row">
+                              <div class="item-title">Tel Aviv - North</div>
+                            </div>
+                            <div class="item-subtitle">Barak Cohen<span class="timeSpan">Leaving 17:30</span></div>
+                          </div>
+                        </a>
+                      </li>
+
+                    </ul>
+                  </div>
+
+                  <div class="content-block-title">Tomorrow</div>
+                  <div class="list-block media-list inset">
+                    <ul>
+                      <li id="ride484" class="rideComponent">
+                        <a href="#ride" class="item-link item-content">
+                          <div class="item-media"><img src="img/driver.png" width="44"></div>
+                          <div class="item-inner">
+                            <div class="item-title-row">
+                              <div class="item-title">Ramat Hasharon</div>
+                            </div>
+                            <div class="item-subtitle">Sivan Harel<span class="timeSpan">Leaving 09:00</span></div>
+                          </div>
+                        </a>
+                      </li>
+                      <li id="ride485" class="rideComponent">
+                        <a href="#ride" class="item-link item-content">
+                          <div class="item-media"><img src="img/driver.png" width="44"></div>
+                          <div class="item-inner">
+                            <div class="item-title-row">
+                              <div class="item-title">Tel Aviv - North</div>
+                            </div>
+                            <div class="item-subtitle">Barak Cohen<span class="timeSpan">Leaving 10:15</span></div>
+                          </div>
+                        </a>
+                      </li>
+
+                    </ul>
+                  </div>
+
+
+                </div>
+                <!-- FROM IDC -->
+                <div id="tab2" class="page-content tab">
+                    
+                  <div class="content-block-title">Today</div>
+                  <div class="list-block media-list inset">
+                    <ul>
+                      <li id="ride486">
+                        <a href="#ride" class="item-link item-content">
+                          <div class="item-media"><img src="img/driver.png" width="44"></div>
+                          <div class="item-inner">
+                            <div class="item-title-row">
+                              <div class="item-title">Tel Aviv Center</div>
+                            </div>
+                            <div class="item-subtitle">Barak Cohen</div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notifications Page -->
+          <div data-page="notifications" class="page cached">
+            <div class="page-content">
+              <div class="content-block">
+
+                <div class="content-block-title">Today</div>
+                  <div class="list-block media-list inset">
+                    <ul>
+                      <li id="ride482" class="rideComponent">
+                        <a href="#ride" class="item-link item-content">
+                          <div class="item-media"><img src="img/notificationOn.png" width="44"></div>
+                          <div class="item-inner">
+                            <div class="item-title-row">
+                              <div class="item-title">Your request to IDC</div>
+                            </div>
+                            <div class="item-subtitle">2 New comments<span class="timeSpan">10:15</span></div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+
+                <div class="content-block-title">Last week</div>
+                  <div class="list-block media-list inset">
+                    <ul>
+                      <li id="ride485" class="rideComponent">
+                        <a href="#ride" class="item-link item-content">
+                          <div class="item-media"><img src="img/notificationOff.png" width="44"></div>
+                          <div class="item-inner">
+                            <div class="item-title-row">
+                              <div class="item-title">Sapir's ride</div>
+                            </div>
+                            <div class="item-subtitle">3 New comments <span class="timeSpan">22.7</span></div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Ride Page -->
+          <div data-page="ride" class="page cached">
+            <div class="page-content">
+              <div class="content-block">
+
+                <div class="card">
+                  <div class="card-header">Barak Cohen<div class="item-media"><img src="img/driver.png" width="44"></div></div>
+                  <div class="card-content">
+                    <div class="card-content-inner">
+                      <p>From Tel aviv to IDC.</p>
+                      <p>Time: 20:30</p>
+                    </div>
+                  </div>
+                  <div class="card-footer">3 spots</div>
+                </div>
+
+              <div id="commentsSec">
+                <div class="content-block-title">Comments</div>
+                  <div></div>
+                  <div class="card">
+                    <div class="card-content">
+                      <div class="card-content-inner">
+                        <b>Sivan:</b> Hi! I would like to join you if the spot is sill available
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card" id="aaa">
+                    <div class="card-content">
+                      <div class="card-content-inner">
+                        <b>Barak:</b> Alright cool
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- About Page -->
+          <div data-page="about" class="page cached">
+            <div class="page-content">
+              <div class="content-block">
+              <p>This web application was created by Sapir, Sivan and Barak as part of a final assignement for the course "mobile web application development</p><p>Thanks for your time</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SomeProfile Page -->
+          <div data-page="SomeProfile" class="page cached">
+            <div class="page-content">
+              <div class="content-block">
+                SomeProfile!
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Page-->
+          <div data-page="form" class="page cached">
+            <div class="page-content">
+              <div class="content-block-title">Direction</div>
+              <div class="list-block">
+                <ul>
+                  <li>
+                    <label class="label-radio item-content">
+                      <input type="radio" name="fromOrTo" value="FromIDC" checked>
+                      <div class="item-inner">
+                        <div class="item-title">From IDC</div>
+                      </div>
+                    </label>
+                  </li>
+                  <li>
+                    <label class="label-radio item-content">
+                      <input type="radio" name="fromOrTo" value="ToIDC">
+                      <div class="item-inner">
+                        <div class="item-title">To IDC</div>
+                      </div>
+                    </label>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="list-block">
+                <ul>
+                  <li>
+                    <div class="item-content">
+                      <div class="item-media"><i class="icon icon-form-name"></i></div>
+                      <div class="item-inner"> 
+                        <div class="item-title label">I am a</div>
+                        <div class="item-input">
+                          <select>
+                            <option>Driver</option>
+                            <option>Passenger</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="item-content">
+                      <div class="item-media"><i class="icon icon-form-calendar"></i></div>
+                      <div class="item-inner"> 
+                        <div class="item-title label">Depart Date</div>
+                        <div class="item-input">
+                          <input type="date" placeholder="Date">
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="item-content">
+                      <div class="item-media"><i class="icon icon-form-calendar"></i></div>
+                      <div class="item-inner"> 
+                        <div class="item-title label">Depart Hour</div>
+                        <div class="item-input">
+                          <input type="time" placeholder="Hour">
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li>
+                    <div class="item-content">
+                      <div class="item-media"><i class="icon icon-form-settings"></i></div>
+                      <div class="item-inner"> 
+                        <div class="item-title label">Leaving from</div>
+                        <div class="item-input">
+                          <input type="text">
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li>
+                    <div class="item-content">
+                      <div class="item-media"><i class="icon icon-form-settings"></i></div>
+                      <div class="item-inner"> 
+                        <div class="item-title label">Destination</div>
+                        <div class="item-input">
+                          <input type="text">
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li class="align-top">
+                    <div class="item-content">
+                      <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                      <div class="item-inner"> 
+                        <div class="item-title label">Notes</div>
+                        <div class="item-input">
+                          <input type="text">
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="content-block">
+                <div class="row">
+                  <input type="submit" value="Submit" class="button button-big button-fill color-green">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Bottom Toolbar-->
+        <div class="toolbar">
+          <div class="toolbar-inner">
+            <a href="#" class="link">Logout</a>
+            <a href="#form" class="link"><img src="img/create.png" width="30px"/></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src='https://code.jquery.com/jquery-1.12.4.min.js'></script>
+    <script type="text/javascript" src="js/framework7.min.js"></script>
+    <script type="text/javascript" src="js/my-app.js"></script>
+  </body>
+</html>
