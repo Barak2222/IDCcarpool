@@ -227,14 +227,14 @@
           </div>
 
           <!-- Form Page-->
-          <div data-page="form" class="page cached">
+          <form id="newPost"><div data-page="form" class="page cached">
             <div class="page-content">
               <div class="content-block-title">Direction</div>
               <div class="list-block">
                 <ul>
                   <li>
                     <label class="label-radio item-content">
-                      <input type="radio" name="fromOrTo" value="FromIDC" checked>
+                      <input type="radio" name="type" value="fromIDC" checked>
                       <div class="item-inner">
                         <div class="item-title">From IDC</div>
                       </div>
@@ -242,7 +242,7 @@
                   </li>
                   <li>
                     <label class="label-radio item-content">
-                      <input type="radio" name="fromOrTo" value="ToIDC">
+                      <input type="radio" name="type" value="toIDC">
                       <div class="item-inner">
                         <div class="item-title">To IDC</div>
                       </div>
@@ -259,10 +259,8 @@
                       <div class="item-inner"> 
                         <div class="item-title label">I am a</div>
                         <div class="item-input">
-                          <select>
-                            <option>Driver</option>
-                            <option>Passenger</option>
-                          </select>
+                          Driver<input type="radio" name="role" value="driver" checked>
+                          Passenger<input type="radio" name="role" value="passenger">
                         </div>
                       </div>
                     </div>
@@ -273,7 +271,7 @@
                       <div class="item-inner"> 
                         <div class="item-title label">Depart Date</div>
                         <div class="item-input">
-                          <input type="date" placeholder="Date">
+                          <input type="date" name="date" placeholder="Date">
                         </div>
                       </div>
                     </div>
@@ -284,7 +282,7 @@
                       <div class="item-inner"> 
                         <div class="item-title label">Depart Hour</div>
                         <div class="item-input">
-                          <input type="time" placeholder="Hour">
+                          <input type="time" name="hour" placeholder="Hour">
                         </div>
                       </div>
                     </div>
@@ -296,7 +294,7 @@
                       <div class="item-inner"> 
                         <div class="item-title label">Leaving from</div>
                         <div class="item-input">
-                          <input type="text">
+                          <input type="text" name="from">
                         </div>
                       </div>
                     </div>
@@ -308,7 +306,7 @@
                       <div class="item-inner"> 
                         <div class="item-title label">Destination</div>
                         <div class="item-input">
-                          <input type="text">
+                          <input type="text" name="to">
                         </div>
                       </div>
                     </div>
@@ -320,7 +318,7 @@
                       <div class="item-inner"> 
                         <div class="item-title label">Notes</div>
                         <div class="item-input">
-                          <input type="text">
+                          <input type="text" name="notes">
                         </div>
                       </div>
                     </div>
@@ -333,7 +331,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div></form>
         </div>
         <!-- Bottom Toolbar-->
         <div class="toolbar">

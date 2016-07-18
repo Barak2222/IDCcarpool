@@ -12,6 +12,29 @@ var mainView = myApp.addView('.view-main', {
     domCache: true
 });
 
+$('#log').on('submit', function(e){
+    e.preventDefault();
+    var form = $(this);
+    var userData = form.serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: '/login',
+        data: userData,
+    }).done(function(dataRecieved){
+        if(dataRecieved){
+            window.location.href = "/www/index.html";
+        } else {
+            window.location.href = "/public/accessDenied.html";
+        }
+        form.trigger('reset');
+    })
+    .fail(function(data){
+        window.location.href = "/public/accessDenied.html";
+    });
+});
+
+
 
 var comments = {
     createCommentCard: function(author, message){
@@ -66,8 +89,6 @@ var rides = {
         for (var i = 0; i < data.length; i++) {
             var ride = this.createNode(data[i]);
             var $container = $(this.whereToPut(data[i]));
-            console.log(this.whereToPut(data[i]));
-            //$("#todayToIDC")
             $container.append(ride);
         }
     },
@@ -107,7 +128,6 @@ var rides = {
         $inner = $('<div class="item-inner"></div>').append($row).append($subtitle);
         var imgType = (obj.role == "driver") ? "driver" : "pedestrian";
         $img = $('<div class="item-media"><img src="img/' + imgType + '.png" width="44" /></div>');
-        console.log("maybe img:");console.log($img);
         $a = $('<a href="#ride" class="item-link item-content"></a>');
         $a.append($img).append($inner);
         $li = $('<li id="ride"' + obj.id + ' class="rideComponent">');
