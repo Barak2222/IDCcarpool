@@ -1,9 +1,11 @@
 var users = require('./users');
 var comment = require('./comment');
-var today = new Date();
-var tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
-var countIds= 100;
+
+var CONST = {
+	today: new Date(),
+	tomorrow: (new Date()).setDate((new Date()).getDate() + 1),
+	later: (new Date()).setDate((new Date()).getDate() + 2),
+}
 
 var ridesData = [ // TODO: open from file
 	{
@@ -11,8 +13,8 @@ var ridesData = [ // TODO: open from file
 		author: "Sapir", // user ID
 		type: "toIDC",
 		role: "driver", // driver or passenger
-		date: today,
-		hour: [12,30],
+		date: CONST.today,
+		hour: ["12","30"],
 		from: "Raanana",
 		to: "IDC",
 		notes: "best music",
@@ -24,8 +26,8 @@ var ridesData = [ // TODO: open from file
 		author: "Sivan", // user ID
 		type: "toIDC",
 		role: "passenger", // driver or passenger
-		date: tomorrow,
-		hour: [8,15],
+		date: CONST.tomorrow,
+		hour: ["08","15"],
 		from: "Tel Aviv",
 		to: "IDC",
 		notes: "best music",
@@ -37,11 +39,24 @@ var ridesData = [ // TODO: open from file
 		author: "Barak", // user ID
 		type: "toIDC",
 		role: "passenger", // driver or passenger
-		date: tomorrow,
-		hour: [8,15],
+		date: CONST.later,
+		hour: ["09","00"],
 		from: "Tel Aviv",
 		to: "IDC",
 		notes: "best music",
+		timeStamp: new Date(), //When this was created
+		comments: [],
+	},
+	{
+		id: 3,
+		author: "Sivan", // user ID
+		type: "fromIDC",
+		role: "driver", // driver or passenger
+		date: CONST.today,
+		hour: ["08","30"],
+		from: "Ramat Gam",
+		to: "IDC west gate",
+		notes: "cool",
 		timeStamp: new Date(), //When this was created
 		comments: [],
 	},
@@ -86,10 +101,7 @@ var rides = {
 	// this function is used when the page loads
 	getFutureData: function(req, res){
 		res.json(ridesData);
-		console.log("retuened k:");
-		console.log(ridesData);
-		// TODO: return all the data about future rides
-		// do not return comments data
+		// TODO: do not return comments data
 	},
 	addComment: function(comment, rideID){
 		rides[rideID].comments.push(comment);

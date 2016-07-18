@@ -65,12 +65,34 @@ var rides = {
     init: function(data){
         for (var i = 0; i < data.length; i++) {
             var ride = this.createNode(data[i]);
-            $("#todayToIDC").append(ride);
+            var $container = $(this.whereToPut(data[i]));
+            console.log(this.whereToPut(data[i]));
+            //$("#todayToIDC")
+            $container.append(ride);
         }
-        var ride = this.createNode(data[0]);
-        $("#laterToIDC").append(ride);
-        var ride = this.createNode(data[1]);
-        $("#todayFromIDC").append(ride);
+    },
+    whereToPut: function(obj){
+        var st = "#";
+        var today = new Date();
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        if(this.isSameDay(obj.date, today)){
+            st+= "today";
+        } else if(this.isSameDay(obj.date, tomorrow)){
+            st+= "tomorrow";
+        } else {
+            st+= "later";
+        }
+        st+= (obj.type == "toIDC") ? "ToIDC" : "FromIDC";
+        return st;
+    },
+    isSameDay: function(d1, d2){
+        d1 = new Date(d1);
+        d2 = new Date(d2);
+        if(d1.getDate() != d2.getDate()){ return false; }
+        if(d1.getFullYear() != d2.getFullYear()){ return false; }
+        if(d1.getMonth() != d2.getMonth()){ return false; }
+        return true;
     },
     createNode: function(obj){
         var time = obj.hour[0] + ':' + obj.hour[1];
