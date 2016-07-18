@@ -11,10 +11,31 @@ var auth = {
 		}
 	},
 	register: function(req, res){
-		// TODO validate data!! (eg cannot have 2 user with the same id)
-		// TODO create new user object
-		// TODO push new objet to the array in users module
-		// TODO return a relevant response
+		//validate the data
+		if (!req.body) return res.sendStatus(400);
+
+		//cannot have 2 user with the same id)
+		if(users.isExist(req.body.username)){
+			res.json("exist");
+		}
+		else{
+			//create new user object
+			var newuser={
+				id: req.body.username,
+				password: req.body.password,
+				type: null,
+				bDay: null,
+				major: null,
+				freshmanYear: null,
+				graduationYear: null,
+				car: null,
+				calc: null, //remove later
+			}
+			// push the new user objet to the array in users module
+			users.createUser(newuser);
+			res.json("sucsess");
+		}
+
 	},
 	middleAuth: function(req, res, next){
 		if(req.session.currentUser){

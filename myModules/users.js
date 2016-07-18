@@ -57,6 +57,7 @@ function find(id){
 	return null;
 }
 
+
 module.exports = {
 	login : function(id, pass){
 		var user = find(id);
@@ -64,6 +65,9 @@ module.exports = {
 			return user.password == pass;
 		}
 		return false;
+	},
+	isExist: function(id){
+		return find(id) != null ;
 	},
 	getProfile: function(req, res){
 		var id = req.params.id;
@@ -75,7 +79,7 @@ module.exports = {
 		}
 	},
 	createUser: function(userObj){
-		user.push(userObj);
+		users.push(userObj);
 	},
 	getCalc : function(id){
 		var user = find(id);
