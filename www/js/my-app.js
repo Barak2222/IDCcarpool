@@ -24,7 +24,76 @@ var comments = {
 $(document).ready(function(){
 	var card = comments.createCommentCard('Sapir', "Hii!!!");
 	$('#commentsSec').append(card);
+    var futureData;
+    $.getJSON( "/www/futureRides", function(data) {
+        rides.init(data);
+    })
+    .fail(function(){
+        console.log('error while trying to get data from server');
+    });
 });
+
+
+/** example
+    {
+        author: "Sapir", // user ID
+        type: "toIDC",
+        role: "driver", // driver or passenger
+        date: today,
+        hour: [12,30],
+        from: "Raanana",
+        to: "IDC",
+        notes: "best music",
+        timeStamp: new Date(), //When this was created
+        comments: [],
+    }
+
+<li id="ride484" class="rideComponent">
+  <a href="#ride" class="item-link item-content">
+                <div class="item-media"><img src="img/driver.png" width="44"></div>
+                <div class="item-inner">
+                    <div class="item-title-row">
+                      <div class="item-title">AAAA</div>
+                    </div>
+                    <div class="item-subtitle">Sivan Harel<span class="timeSpan">Leaving 09:00</span></div>
+                </div>
+  </a>
+</li>
+
+*/
+var rides = {
+    init: function(data){
+        for (var i = 0; i < data.length; i++) {
+            var ride = this.createNode(data[i]);
+            $("#todayToIDC").append(ride);
+        }
+        var ride = this.createNode(data[0]);
+        $("#laterToIDC").append(ride);
+        var ride = this.createNode(data[1]);
+        $("#todayFromIDC").append(ride);
+    },
+    createNode: function(obj){
+        var time = obj.hour[0] + ':' + obj.hour[1];
+        var $item = $('<div class="item-title">' + obj.from + " to " + obj.to + '</div>');
+        var $row = $('<div class="item-title-row"></div>');
+        $row.append($item);
+
+        // TODO: leaving OR requesting!!
+        var $span = $('<span class="timeSpan">Leaving ' + time + '</span>');
+        var $subtitle = $('<div class="item-subtitle">' + obj.author + '</div>');
+        $subtitle.append($span);
+        $inner = $('<div class="item-inner"></div>').append($row).append($subtitle);
+        var imgType = (obj.role == "driver") ? "driver" : "pedestrian";
+        $img = $('<div class="item-media"><img src="img/' + imgType + '.png" width="44" /></div>');
+        console.log("maybe img:");console.log($img);
+        $a = $('<a href="#ride" class="item-link item-content"></a>');
+        $a.append($img).append($inner);
+        $li = $('<li id="ride"' + obj.id + ' class="rideComponent">');
+        $li.append($a);
+        return $li;
+    }
+}
+
 
 
 

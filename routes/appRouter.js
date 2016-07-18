@@ -10,6 +10,7 @@ var rides = require('./../myModules/rides');
 var calculator = require('./../myModules/calculator');// delete later
 
 router.use(auth.middleAuth)
+
 .post('/setCalc/:num', calculator.set) //remove after
 .get('/getCalc', calculator.get) // remove after
 

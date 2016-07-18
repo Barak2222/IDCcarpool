@@ -1,13 +1,18 @@
 var users = require('./users');
 var comment = require('./comment');
+var today = new Date();
+var tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+var countIds= 100;
 
-var rides = [ // TODO: open from file
+var ridesData = [ // TODO: open from file
 	{
+		id: 0,
 		author: "Sapir", // user ID
 		type: "toIDC",
 		role: "driver", // driver or passenger
-		date: new Date(30,8,2017),
-		Hour: [12,30],
+		date: today,
+		hour: [12,30],
 		from: "Raanana",
 		to: "IDC",
 		notes: "best music",
@@ -15,11 +20,25 @@ var rides = [ // TODO: open from file
 		comments: [],
 	},
 	{
+		id: 1,
 		author: "Sivan", // user ID
 		type: "toIDC",
 		role: "passenger", // driver or passenger
-		date: new Date(31,8,2017),
-		Hour: [8,15],
+		date: tomorrow,
+		hour: [8,15],
+		from: "Tel Aviv",
+		to: "IDC",
+		notes: "best music",
+		timeStamp: new Date(), //When this was created
+		comments: [],
+	},
+	{
+		id: 2,
+		author: "Barak", // user ID
+		type: "toIDC",
+		role: "passenger", // driver or passenger
+		date: tomorrow,
+		hour: [8,15],
 		from: "Tel Aviv",
 		to: "IDC",
 		notes: "best music",
@@ -28,7 +47,7 @@ var rides = [ // TODO: open from file
 	},
 ]
 
-var counter = rides.length; //represents ids of rides
+var counter = ridesData.length; //represents ids of rides
 
 function validateRideInput(data){
 	if(true)// TODO check if the given information validates
@@ -65,7 +84,10 @@ var rides = {
 		 //TODO check the statuscode
 	},
 	// this function is used when the page loads
-	getFutureData: function(){
+	getFutureData: function(req, res){
+		res.json(ridesData);
+		console.log("retuened k:");
+		console.log(ridesData);
 		// TODO: return all the data about future rides
 		// do not return comments data
 	},
