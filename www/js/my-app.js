@@ -183,3 +183,23 @@ $('form').on('submit', function(e){
     });
 });
     */
+$(document).ready(function(){
+    $('#logoutB').on('click', logout1);
+});
+
+
+var logout1 = function(){
+    console.log('dd');
+    $.getJSON( "/www/logout", function( data ) {
+        console.log(data);
+        if(data == true || data == "true"){
+            window.location.href = "/public/login.html";
+        } else {
+            console.log('error disconnecting');
+            console.log(data);
+        }
+    })
+    .fail(function(){
+        console.log('error while trying to get data from server');
+    })
+};
