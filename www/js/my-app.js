@@ -28,13 +28,7 @@ var navigation = {
     },
 }
 
-var comments = {
-    createCommentCard: function(author, message){
-        var st = '<div class="card" id="aaa"><div class="card-content"><div class="card-content-inner">'
-            +  '<b>' + author + ':</b> ' + message + '</div></div></div>';
-        return $(st);
-    }
-};
+
 
 $(document).ready(function(){
     var card = comments.createCommentCard('Sapir', "Hii!!!");
@@ -149,18 +143,42 @@ var rides = {
 
 
 var ridePage = {
+    current: 0,
     handler: function(rideID){
-        this.getData(rideID);
+        ridePage.current = rideID;
+        var data = this.getData(rideID);
     },
     getData: function(rideID){
         $.getJSON( "/www/getRide/" + rideID, function( data ) {
-            console.log(data);
+            ridePage.createPage(data);
         })
         .fail(function(){
             console.log('error while trying to get data from server');
         })
-    }
+    },
+    createPage: function(data){
+        console.log(data);
+        $("#ridePageAuthor").text(data.author);
+        var role = (data.role == "driver") ? "driver" : "pedestrian";
+        document.getElementById('ridePageImg').src = "img/" + role + ".png";
+        $("#ridePageFromTo").text("From " + data.from + " to " + data.to);
+        $("#ridePageTime").text("Time: " + data.hour);//TODO: change to have both hour and date in valid format
+        $("#ridePageNotes").text(data.notes);
+        comments.init(data.comments);
+    },
 }
+/**
+ridePageAuthor
+ridePageImg
+ridePageFromTo   // From Tel aviv to IDC.
+ridePageTime    //Time: 20:30
+ridePageSpots    // 3 spots
+
+
+
+*/
+
+
 
 function Highlighter($node){
     var i = 1;
@@ -266,12 +284,10 @@ $(document).ready(function(){
 var logout1 = function(){
     console.log('dd');
     $.getJSON( "/www/logout", function( data ) {
-        console.log(data);
         if(data == true || data == "true"){
             window.location.href = "/public/login.html";
         } else {
             console.log('error disconnecting');
-            console.log(data);
         }
     })
     .fail(function(){
@@ -279,19 +295,51 @@ var logout1 = function(){
     })
 };
 
+
+
+
 function makeComment(){
-    var message = document.getElementById('message').value;
-    //change the id o in the rideID
-    $.post('/www/CreateNewComment', {message: message , rideID: 0} , function(data){
-        if(data){
-            console.log(data);
-            var name = data.author;
-            var node = comments.createCommentCard(name, message);
-            $("#commentsSec").append(node);
-            document.getElementById('message').value = "";
-        }
-        else{
-            alert("waring while uploading the comment");
-        }
-    });
+    comments.addOneComment();
 };
+
+
+/**
+    this.author = author;
+    this.rideID = rideID; // parent node
+    this.message = message;
+    this.time = new Date();
+*/
+var comments = {
+    addOneComment: function(){
+        var message = document.getElementById('message').value;
+        //change the id o in the rideID||| DONE test if working
+        $.post('/www/CreateNewComment', {message: message , rideID: ridePage.current} , function(data){
+            if(data){
+                comments.createCommentComponent(data);
+                document.getElementById('message').value = "";
+            }
+            else{
+                alert("error uploading the comment");
+            }
+        });
+    },
+    createCommentCard: function(author, message){
+        var st = '<div class="card" id="aaa"><div class="card-content"><div class="card-content-inner">'
+            +  '<b>' + author + ':</b> ' + message + '</div></div></div>';
+        return $(st);
+    },
+    createCommentComponent: function(data){
+        var name = data.author;
+        var node = comments.createCommentCard(name, data.message);
+        $("#commentsSec").append(node);
+    },
+    empty: function(){
+        $("#commentsSec").empty();
+    },
+    init: function(arr){
+        comments.empty();
+        for (var i = 0; i < arr.length; i++) {
+            this.createCommentComponent(arr[i]);
+        }
+    },
+}

@@ -15,14 +15,10 @@ module.exports = {
 	createComment(req, res){
 		// doto: of body is null return error to client
 
-		console.log(rides);
-
 		var author = req.session.currentUser;
 		var rideID = req.body.rideID;
 		var message = req.body.message;
 		var author = req.session.currentUser;
-		//console.log(req.body.rideID);
-		console.log(req.body.message);
 		// validate that the data is legal
 		if(/**(rides.find(rideID)) &&*/ message.length > 0 && message.length < 120){
 			var commentObj = new Comment(author, rideID, message);

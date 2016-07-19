@@ -18,7 +18,7 @@ var ridesData = [ // TODO: open from file
 		to: "IDC",
 		notes: "best music",
 		timeStamp: new Date(), //When this was created
-		comments: [{},{}],
+		comments: [],
 	},
 	{
 		id: 1,
@@ -31,7 +31,7 @@ var ridesData = [ // TODO: open from file
 		to: "IDC",
 		notes: "best music",
 		timeStamp: new Date(), //When this was created
-		comments: [{},{}],
+		comments: [],
 	},
 	{
 		id: 2,
@@ -44,7 +44,7 @@ var ridesData = [ // TODO: open from file
 		to: "IDC",
 		notes: "best music",
 		timeStamp: new Date(), //When this was created
-		comments: [{},{}],
+		comments: [],
 	},
 	{
 		id: 3,
@@ -53,11 +53,11 @@ var ridesData = [ // TODO: open from file
 		role: "driver", // driver or passenger
 		date: CONST.today,
 		hour: ["08","30"],
-		from: "Ramat Gam",
+		from: "Ramat Gan",
 		to: "IDC west gate",
 		notes: "cool",
 		timeStamp: new Date(), //When this was created
-		comments: [{},{}],
+		comments: [],
 	},
 ]
 
@@ -114,8 +114,9 @@ module.exports = {
 		var ride = ridesData[req.params.id];
 		if(ride){
 			res.json(ride);	
+		} else{
+			res.status(402).json("ride wasn't found");
 		}
-		res.status(402).json("ride wasn't found");
 		 //TODO check the statuscode
 	},
 	// this function is used when the page loads
