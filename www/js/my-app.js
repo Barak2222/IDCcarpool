@@ -165,9 +165,6 @@ function Highlighter($node){
     }, 500);
 }
 
-var profile = {
-    init();
-}
 
 
 /**
