@@ -102,7 +102,6 @@ var rides = {
 
 		if(valid){
 			ride = create(data, req.session.currentUser);
-			console.log(ride);
 			res.json(ride);
 		} else {
 			res.json("false");

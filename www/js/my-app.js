@@ -11,12 +11,20 @@ var mainView = myApp.addView('.view-main', {
     // Enable Dom Cache so we can use all inline pages
     domCache: true
 });
-//tab1 - toIDC
+
 var navigation = {
     goBack: function(){
         var l = document.getElementById('form-go-back');
         l.click();
-    }
+    },
+    toIDCTab: function(){
+        var l = document.getElementById("tabToIDC");
+        l.click();
+    },
+    fromIDCTab: function(){
+        var l = document.getElementById("tabFromIDC");
+        l.click();
+    },
 }
 
 var comments = {
@@ -54,11 +62,16 @@ newPostSubmit = {
                 data: userData,
             }).done(function(dataRecieved){
                 if(dataRecieved){
-                    console.log("submitted successfully");
-                    console.log(dataRecieved)
+                    //Close new post screen
                     navigation.goBack();
+                    
+                    /**setTimeout(function(){
+                        // switch tab
+                        (dataRecieved.type == "toIDC") ? navigation.toIDCTab() : navigation.fromIDCTab();
+                    }, 1000);*/    //doesnt work currently
+
                     rides.addOnePost(dataRecieved);
-                    form.trigger('reset');
+                    form.trigger('reset');    
                 } else {
                     console.log("there was an error?");
                 }
@@ -146,7 +159,9 @@ function Highlighter($node){
             }
         }, 250);
     }
-    tFunc();
+    setTimeout(function(){
+        tFunc();
+    }, 500);
 }
 
 
