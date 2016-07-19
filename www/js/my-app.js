@@ -1,3 +1,4 @@
+var globalData;
 // Initialize your app
 var myApp = new Framework7({
     animateNavBackIcon:true
@@ -164,9 +165,24 @@ function Highlighter($node){
     }, 500);
 }
 
+var profile = {
+    init();
+}
 
 
+/**
+                <div id="profileSec" class="card">
+                  <div class="card-header">Barak Cohen<div class="item-media"><img src="img/driver.png" width="44"></div></div>
+                  <div class="card-content">
+                    <div class="card-content-inner">
+                      <p>From Tel aviv to IDC.</p>
+                      <p>Time: 20:30</p>
+                    </div>
+                  </div>
+                  <div class="card-footer">3 spots</div>
+                </div>
 
+*/
 /** EXAMPLES:
 
     logout: function(){
