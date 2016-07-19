@@ -81,19 +81,4 @@ module.exports = {
 	createUser: function(userObj){
 		users.push(userObj);
 	},
-	getCalc : function(id){
-		var user = find(id);
-		if(user){
-			return user.calc;
-		}
-		throw new Error('user does not exist');
-	},
-	setCalc : function(id, data){
-		var user = find(id);
-		if(user){
-			user.calc = data;
-		} else {
-			throw new Error('user does not exist');
-		}
-	} 
 }

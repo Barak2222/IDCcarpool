@@ -24,6 +24,12 @@ utils = {
         if(d1.getMonth() != d2.getMonth()){ return false; }
         return true;
     },
+    // TODO: check if works and use this to validate that input is good
+    isOld(d){
+        var yesturday = new Date();
+        yesturday.setDate(yesturday.getDate() - 1);
+        return (d.getTime() < yesturday.getTime());
+    }
 }
 
 
@@ -62,7 +68,6 @@ $(document).ready(function(){
 newPostSubmit = {
     init: function(){
         $('#newPostForm').on('submit', function(e){
-            console.log('submitted');
             e.preventDefault();
             var form = $(this);
             var userData = form.serialize();

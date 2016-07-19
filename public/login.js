@@ -31,12 +31,11 @@ $('#reg').on('submit', function(e){
 		url: '/register',
 		data: userData,
 	}).done(function(dataRecieved){
-		console.log(dataRecieved);
 		if(dataRecieved === "sucsess"){
 			alert("your username has been created sucsessfuly , now try to login");
 		} else {
 			if(dataRecieved === "exist"){
-				alert("This username is alredy exist");
+				alert("Username alredy exists");
 			}
 			else{
 				alert("try again");
@@ -45,7 +44,6 @@ $('#reg').on('submit', function(e){
 		form.trigger('reset');
 	})
 	.fail(function(data){
-		//window.location.href = "/public/accessDenied.html";
 		console.log("there was an error");
 	});
 });

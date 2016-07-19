@@ -7,13 +7,9 @@ var parseUrlencoded = bodyParser.urlencoded({extended: false});
 var auth = require('./../myModules/authentication');
 var users = require('./../myModules/users');
 var rides = require('./../myModules/rides');
-var calculator = require('./../myModules/calculator');// delete later
 var comments = require('./../myModules/comment');
 
 router.use(auth.middleAuth)
-
-.post('/setCalc/:num', calculator.set) //remove after
-.get('/getCalc', calculator.get) // remove after
 
 .get('/logout', auth.logout)
 .get('/profile/:id', users.getProfile)

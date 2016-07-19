@@ -80,7 +80,7 @@ function create(obj, user){
 		type: obj.type,
 		role: obj.role, // driver or passenger
 		date: tempDate,
-		hour: tempHour,//change to ["09","00"],
+		hour: tempHour,// eg ["09","00"],
 		from: obj.from,
 		to: obj.to,
 		notes: obj.notes,

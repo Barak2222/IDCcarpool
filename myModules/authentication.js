@@ -29,7 +29,6 @@ var auth = {
 				freshmanYear: null,
 				graduationYear: null,
 				car: null,
-				calc: null, //remove later
 			}
 			// push the new user objet to the array in users module
 			users.createUser(newuser);
