@@ -11,30 +11,13 @@ var mainView = myApp.addView('.view-main', {
     // Enable Dom Cache so we can use all inline pages
     domCache: true
 });
-
-$('#log').on('submit', function(e){
-    e.preventDefault();
-    var form = $(this);
-    var userData = form.serialize();
-
-    $.ajax({
-        type: 'POST',
-        url: '/login',
-        data: userData,
-    }).done(function(dataRecieved){
-        if(dataRecieved){
-            window.location.href = "/www/index.html";
-        } else {
-            window.location.href = "/public/accessDenied.html";
-        }
-        form.trigger('reset');
-    })
-    .fail(function(data){
-        window.location.href = "/public/accessDenied.html";
-    });
-});
-
-
+//tab1 - toIDC
+var navigation = {
+    goBack: function(){
+        var l = document.getElementById('form-go-back');
+        l.click();
+    }
+}
 
 var comments = {
     createCommentCard: function(author, message){
@@ -45,8 +28,8 @@ var comments = {
 };
 
 $(document).ready(function(){
-	var card = comments.createCommentCard('Sapir', "Hii!!!");
-	$('#commentsSec').append(card);
+    var card = comments.createCommentCard('Sapir', "Hii!!!");
+    $('#commentsSec').append(card);
     var futureData;
     $.getJSON( "/www/futureRides", function(data) {
         rides.init(data);
@@ -54,43 +37,56 @@ $(document).ready(function(){
     .fail(function(){
         console.log('error while trying to get data from server');
     });
+    newPostSubmit.init();
 });
 
-
-/** example
-    {
-        author: "Sapir", // user ID
-        type: "toIDC",
-        role: "driver", // driver or passenger
-        date: today,
-        hour: [12,30],
-        from: "Raanana",
-        to: "IDC",
-        notes: "best music",
-        timeStamp: new Date(), //When this was created
-        comments: [],
+newPostSubmit = {
+    init: function(){
+        $('#newPostForm').on('submit', function(e){
+            console.log('submitted');
+            e.preventDefault();
+            var form = $(this);
+            var userData = form.serialize();
+    
+            $.ajax({
+                type: 'POST',
+                url: '/www/createRide',
+                data: userData,
+            }).done(function(dataRecieved){
+                if(dataRecieved){
+                    console.log("submitted successfully");
+                    console.log(dataRecieved)
+                    navigation.goBack();
+                    rides.addOnePost(dataRecieved);
+                    form.trigger('reset');
+                } else {
+                    console.log("there was an error?");
+                }
+            })
+            .fail(function(data){
+                console.log("there was an error");
+            });
+        });
     }
+}
 
-<li id="ride484" class="rideComponent">
-  <a href="#ride" class="item-link item-content">
-                <div class="item-media"><img src="img/driver.png" width="44"></div>
-                <div class="item-inner">
-                    <div class="item-title-row">
-                      <div class="item-title">AAAA</div>
-                    </div>
-                    <div class="item-subtitle">Sivan Harel<span class="timeSpan">Leaving 09:00</span></div>
-                </div>
-  </a>
-</li>
 
-*/
 var rides = {
     init: function(data){
         for (var i = 0; i < data.length; i++) {
-            var ride = this.createNode(data[i]);
+            var $ride = this.createNode(data[i]);
             var $container = $(this.whereToPut(data[i]));
-            $container.append(ride);
+            $container.append($ride);
         }
+    },
+    emptyTheFeed: function(){
+        $(".tabs-swipeable-wrap ul").empty();
+    },
+    addOnePost: function(obj){
+        var $ride = this.createNode(obj);
+        var $container = $(this.whereToPut(obj));
+        $container.append($ride);
+        new Highlighter($ride);
     },
     whereToPut: function(obj){
         var st = "#";
@@ -136,7 +132,22 @@ var rides = {
     }
 }
 
-
+function Highlighter($node){
+    var i = 1;
+    var colors = ["#ffff99", "#ffffb3", "#ffffcc", "#ffffe6", "#ffffff"];
+    $node.css({"background-color": colors[0]});
+    
+    var tFunc = function() {
+        setTimeout(function(){
+            $node.css({"background-color": colors[i]});
+            i++;
+            if(i < colors.length){
+                tFunc();
+            }
+        }, 250);
+    }
+    tFunc();
+}
 
 
 

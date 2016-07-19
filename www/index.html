@@ -65,7 +65,7 @@
           </div>
           <!-- Navbar inner for Form page-->
           <div data-page="form" class="navbar-inner cached">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+            <div class="left sliding"><a href="#" id="form-go-back" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
             <div class="center sliding">New Post</div>
           </div>
         </div>
@@ -104,7 +104,7 @@
                 </div>
                 <!-- FROM IDC -->
                 <div id="tab2" class="page-content tab">
-                <div class="content-block-title">Today</div>
+                  <div class="content-block-title">Today</div>
                   <div class="list-block media-list inset">
                     <ul id="todayFromIDC">
                     </ul>
@@ -119,7 +119,6 @@
                     <ul id="laterFromIDC">
                     </ul>
                   </div>  
-                  
                 </div>
               </div>
             </div>
@@ -229,8 +228,10 @@
           </div>
 
           <!-- Form Page-->
-          <form id="newPost"><div data-page="form" class="page cached">
+
+          <div data-page="form" class="page cached">
             <div class="page-content">
+            <form id="newPostForm">
               <div class="content-block-title">Direction</div>
               <div class="list-block">
                 <ul>
@@ -329,7 +330,7 @@
               </div>
               <div class="content-block">
                 <div class="row">
-                  <input type="submit" value="Submit" class="button button-big button-fill color-green">
+                  <input type="Submit" class="Submit button button-big button-fill color-green">
                 </div>
               </div>
             </div>

@@ -71,10 +71,27 @@ function validateRideInput(data){
 	return false;
 }
 
-function create(obj){
-	// use counter and than do counter++
-	// than push new user to the rides array
-	// TODO
+function create(obj, user){
+	var tempDate = obj.date;
+	var tempHour = (obj.hour + "").split(":");
+
+	var ride = {
+		id: counter,
+		author: user,
+		type: obj.type,
+		role: obj.role, // driver or passenger
+		date: tempDate,
+		hour: tempHour,//change to ["09","00"],
+		from: obj.from,
+		to: obj.to,
+		notes: obj.notes,
+		timeStamp: new Date(),
+		comments: [],
+	}
+	counter++;
+	ridesData.push(ride);
+
+	return ridesData[counter-1];
 }
 
 var rides = {
@@ -84,8 +101,9 @@ var rides = {
 		var valid = validateRideInput(data);
 
 		if(valid){
-			create(u);
-			res.json("true");
+			ride = create(data, req.session.currentUser);
+			console.log(ride);
+			res.json(ride);
 		} else {
 			res.json("false");
 		}
