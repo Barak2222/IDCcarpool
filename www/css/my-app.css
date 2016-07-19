@@ -37,6 +37,7 @@ i.tabbar-demo-icon-4 {
   width: 25px;
   height: 25px;
 }
+
 #notifications{
   text-align: center;
   background-color: #82e;
@@ -54,4 +55,12 @@ i.tabbar-demo-icon-4 {
 .timeSpan{
   float: right;
   font-weight: bold;
+}
+
+#newcomment{
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: Arial;
+  font-weight: bold;
+  text-align: center;
 }
