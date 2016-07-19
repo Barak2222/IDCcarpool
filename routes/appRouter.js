@@ -8,6 +8,7 @@ var auth = require('./../myModules/authentication');
 var users = require('./../myModules/users');
 var rides = require('./../myModules/rides');
 var calculator = require('./../myModules/calculator');// delete later
+var comments = require('./../myModules/comment');
 
 router.use(auth.middleAuth)
 
@@ -19,7 +20,7 @@ router.use(auth.middleAuth)
 .post('/createRide', parseUrlencoded, rides.createRide)
 .get('/getRide', rides.getRide)
 .get('/futureRides', rides.getFutureData)
-.post('/comment', parseUrlencoded, rides.addComment)
+.post('/CreateNewComment', parseUrlencoded, comments.createComment)
 .use('/', express.static(__dirname + "\\..\\" + 'www\\'));
 
 module.exports = router;

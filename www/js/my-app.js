@@ -234,3 +234,18 @@ var logout1 = function(){
         console.log('error while trying to get data from server');
     })
 };
+
+function makeComment(){
+    var message = document.getElementById('message').value;
+    //change the id o in the rideID
+    $.post('/www/CreateNewComment', {message: message , rideID: 0} , function(data){
+        if(data){
+            console.log(data);
+            var name = data.author;
+            comments.createCommentCard(name, message);
+        }
+        else{
+            alert("waring while uploading the comment");
+        }
+    });
+};
