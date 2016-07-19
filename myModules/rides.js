@@ -1,5 +1,4 @@
 var users = require('./users');
-var comments = require('./comment');
 
 var CONST = {
 	today: new Date(),
@@ -112,11 +111,11 @@ module.exports = {
 		return ridesData[id];
 	},
 	getRide: function(req, res){
-		var ride = rides[req.params.id];
+		var ride = ridesData[req.params.id];
 		if(ride){
 			res.json(ride);	
 		}
-		 res.status(402).json("ride wasn't found");
+		res.status(402).json("ride wasn't found");
 		 //TODO check the statuscode
 	},
 	// this function is used when the page loads

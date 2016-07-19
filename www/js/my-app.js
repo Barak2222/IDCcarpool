@@ -140,9 +140,25 @@ var rides = {
         $img = $('<div class="item-media"><img src="img/' + imgType + '.png" width="44" /></div>');
         $a = $('<a href="#ride" class="item-link item-content"></a>');
         $a.append($img).append($inner);
-        $li = $('<li id="ride"' + obj.id + ' class="rideComponent">');
+        $li = $('<li class="rideComponent" onClick="ridePage.handler(' + obj.id + ')"></li>');
         $li.append($a);
         return $li;
+    },
+}
+
+
+
+var ridePage = {
+    handler: function(rideID){
+        this.getData(rideID);
+    },
+    getData: function(rideID){
+        $.getJSON( "/www/getRide/" + rideID, function( data ) {
+            console.log(data);
+        })
+        .fail(function(){
+            console.log('error while trying to get data from server');
+        })
     }
 }
 
@@ -165,9 +181,6 @@ function Highlighter($node){
     }, 500);
 }
 
-var profile = {
-    init();
-}
 
 
 /**
@@ -273,7 +286,9 @@ function makeComment(){
         if(data){
             console.log(data);
             var name = data.author;
-            comments.createCommentCard(name, message);
+            var node = comments.createCommentCard(name, message);
+            $("#commentsSec").append(node);
+            document.getElementById('message').value = "";
         }
         else{
             alert("waring while uploading the comment");

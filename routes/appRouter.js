@@ -18,7 +18,7 @@ router.use(auth.middleAuth)
 .get('/logout', auth.logout)
 .get('/profile/:id', users.getProfile)
 .post('/createRide', parseUrlencoded, rides.createRide)
-.get('/getRide', rides.getRide)
+.get('/getRide/:id', rides.getRide)
 .get('/futureRides', rides.getFutureData)
 .post('/CreateNewComment', parseUrlencoded, comments.createComment)
 .use('/', express.static(__dirname + "\\..\\" + 'www\\'));

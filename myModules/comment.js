@@ -15,6 +15,8 @@ module.exports = {
 	createComment(req, res){
 		// doto: of body is null return error to client
 
+		console.log(rides);
+
 		var author = req.session.currentUser;
 		var rideID = req.body.rideID;
 		var message = req.body.message;
