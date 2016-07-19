@@ -1,5 +1,5 @@
 var users = require('./users');
-var comment = require('./comment');
+var comments = require('./comment');
 
 var CONST = {
 	today: new Date(),
@@ -19,7 +19,7 @@ var ridesData = [ // TODO: open from file
 		to: "IDC",
 		notes: "best music",
 		timeStamp: new Date(), //When this was created
-		comments: [],
+		comments: [{},{}],
 	},
 	{
 		id: 1,
@@ -32,7 +32,7 @@ var ridesData = [ // TODO: open from file
 		to: "IDC",
 		notes: "best music",
 		timeStamp: new Date(), //When this was created
-		comments: [],
+		comments: [{},{}],
 	},
 	{
 		id: 2,
@@ -45,7 +45,7 @@ var ridesData = [ // TODO: open from file
 		to: "IDC",
 		notes: "best music",
 		timeStamp: new Date(), //When this was created
-		comments: [],
+		comments: [{},{}],
 	},
 	{
 		id: 3,
@@ -58,7 +58,7 @@ var ridesData = [ // TODO: open from file
 		to: "IDC west gate",
 		notes: "cool",
 		timeStamp: new Date(), //When this was created
-		comments: [],
+		comments: [{},{}],
 	},
 ]
 
@@ -94,7 +94,8 @@ function create(obj, user){
 	return ridesData[counter-1];
 }
 
-var rides = {
+
+module.exports = {
 	createRide: function(req, res){
 		if (!req.body) return res.sendStatus(400);
 		var data = req.body;
@@ -106,6 +107,9 @@ var rides = {
 		} else {
 			res.json("false");
 		}
+	},
+	find: function(id){
+		return ridesData[id];
 	},
 	getRide: function(req, res){
 		var ride = rides[req.params.id];
@@ -121,8 +125,7 @@ var rides = {
 		// TODO: do not return comments data
 	},
 	addComment: function(comment, rideID){
-		rides[rideID].comments.push(comment);
+		//console.log(rideID);
+		ridesData[rideID].comments.push(comment);
 	}
 }
-
-module.exports = rides;
