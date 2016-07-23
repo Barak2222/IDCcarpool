@@ -1,4 +1,6 @@
 var rides = require('./rides');
+var notifications = require('./notifications');
+
 
 //constructor
 function Comment(author, rideID, message){
@@ -21,6 +23,7 @@ module.exports = {
 		var author = req.session.currentUser;
 		// validate that the data is legal
 		if(/**(rides.find(rideID)) &&*/ message.length > 0 && message.length < 120){
+			notifications.newCommentAdded(author, rideID);
 			var commentObj = new Comment(author, rideID, message);
 			rides.addComment(commentObj, rideID);
 			res.json(commentObj);

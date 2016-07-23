@@ -1,4 +1,3 @@
-var globalData;
 var myApp = new Framework7({
     animateNavBackIcon:true
 });
@@ -12,9 +11,30 @@ var mainView = myApp.addView('.view-main', {
     domCache: true
 });
 
+currentUser = null;
 utils = {
+    isDifferent: function(arr1, arr2){
+        if(arr1.length != arr2.length){
+            return true;
+        }
+        for(var i = 0; i < arr1.length; i++){
+            if(arr1[i] != arr2[i]){
+                if(arr1[i] == null || arr2[i] == null || arr1[i].length != arr2[i].length){
+                    return true
+                }
+            }
+        }
+        return false;
+    },
     dateFormatter(d){
         return d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear();
+    },
+    dateFormatHourMinute: function(d){
+        d = new Date(d);
+        return utils.twoDigitsFormat(d.getHours()) + ":" + utils.twoDigitsFormat(d.getMinutes());
+    },
+    twoDigitsFormat: function(st){
+        return ((st + "").length >= 2) ? st : "0" + st;
     },
     isSameDay: function(d1, d2){
         d1 = new Date(d1);
@@ -29,6 +49,9 @@ utils = {
         var yesturday = new Date();
         yesturday.setDate(yesturday.getDate() - 1);
         return (d.getTime() < yesturday.getTime());
+    },
+    isToday: function(d){
+        return utils.isSameDay(d, new Date());
     }
 }
 
@@ -53,16 +76,23 @@ var navigation = {
 $(document).ready(function(){
     $('#logoutB').on('click', logout);
     $("#commentForm").on('submit', comments.createCommentHandler);
-    var card = comments.createCommentCard('Sapir', "Hii!!!");
-    $('#commentsSec').append(card);
-    var futureData;
     $.getJSON( "/www/futureRides", function(data) {
         rides.init(data);
     })
     .fail(function(){
         console.log('error while trying to get data from server');
     });
+    $.getJSON( "/www/getCurrentUser", function(data) {
+        currentUser = data;
+    })
+    .fail(function(){
+        console.log('error while trying to get data from server');
+    });
     newPostSubmit.init();
+    notifications.init();
+    notifications.runLoop();
+    rides.runLoop();
+    ridePage.runLoop();
 });
 
 newPostSubmit = {
@@ -94,17 +124,35 @@ newPostSubmit = {
 
 
 var rides = {
+    data: null,
     init: function(data){
+        rides.data = data;
         for (var i = 0; i < data.length; i++) {
             var $ride = this.createNode(data[i]);
             var $container = $(this.whereToPut(data[i]));
             $container.append($ride);
         }
     },
+    runLoop: function(){
+        setInterval(function(){ 
+            $.getJSON( "/www/futureRides", function(data) {
+                if(rides.data.length != data.length){
+                    rides.data = data;
+                    rides.emptyTheFeed();
+                    rides.init(data);
+                }
+            })
+            .fail(function(){
+                console.log('error while trying to get data from server');
+            });
+        }, 1000);
+
+    },
     emptyTheFeed: function(){
         $(".tabs-swipeable-wrap ul").empty();
     },
     addOnePost: function(obj){
+        rides.data.push(obj)
         var $ride = this.createNode(obj);
         var $container = $(this.whereToPut(obj));
         $container.append($ride);
@@ -148,13 +196,33 @@ var rides = {
 
 
 var ridePage = {
-    current: 0,
+    current: null,
+    data: null,
+    tempIdx: null,
+    runLoop: function(){
+        setInterval(function(){ 
+            if(!ridePage.current){
+                return ;
+            }
+            $.getJSON("/www/getComments/" + ridePage.current, function(data) {
+                if(data.length != ridePage.data.comments.length){
+                    ridePage.tempIdx = ridePage.data.comments.length;// delete this?
+                    ridePage.data.comments = data;
+                    comments.init(data);
+                }
+            })
+            .fail(function(){
+                console.log('error while trying to get data from server');
+            });
+        }, 1000);
+    },
     handler: function(rideID){
         ridePage.current = rideID;
         var data = this.getData(rideID);
     },
     getData: function(rideID){
         $.getJSON( "/www/getRide/" + rideID, function( data ) {
+            ridePage.data = data;
             ridePage.createPage(data);
         })
         .fail(function(){
@@ -186,6 +254,7 @@ var comments = {
         var message = document.getElementById('message').value;
         $.post('/www/CreateNewComment', {message: message , rideID: ridePage.current} , function(data){
             if(data){
+                ridePage.data.comments.push(data);
                 comments.createCommentComponent(data, comments.highlightCallback);
                 document.getElementById('message').value = "";
             }
@@ -211,6 +280,15 @@ var comments = {
     empty: function(){
         $("#commentsSec").empty();
     },
+    incoming: function(arr){// DELETE THIS!!
+        if(!ridePage.tempIdx){
+            return ;
+        }
+        for(var i = ridePage.tempIdx; i < arr.length; i++){
+
+        }
+        ridePage.tempIdx = null;
+    },
     init: function(arr){
         comments.empty();
         for (var i = 0; i < arr.length; i++) {
@@ -221,7 +299,6 @@ var comments = {
 
 
 var logout = function(){
-    console.log('dd');
     $.getJSON( "/www/logout", function( data ) {
         if(data == true || data == "true"){
             window.location.href = "/public/login.html";
@@ -251,4 +328,138 @@ function Highlighter($node){
     setTimeout(function(){
         tFunc();
     }, 500);
+}
+
+function countRealLength(arr){
+    var count = 0;
+    for (var i = 0; i < arr.length; i++) {
+        if(arr[i]){
+            count++;
+        }
+    }
+    return count;
+}
+
+var notifications = {
+    data: {},
+    $todayContainer: $('#notifToday'),
+    $olderContainer: $('#notifOlder'),
+    runLoop: function(){
+        setInterval(function(){ 
+            $.getJSON( "/www/notifications", function(data) {
+                if(utils.isDifferent(notifications.data.notSeen, data.notSeen)){
+                    notifications.data = data;
+                    notifications.updateIcon();
+                }
+            })
+            .fail(function(){
+                console.log('error while trying to get data from server');
+            });
+        }, 1000);
+
+        notifications.data.notSeen
+    },
+    init: function(){
+        $.getJSON( "/www/notifications", function(data) {
+        notifications.data = data;
+        notifications.updateIcon();
+        })
+        .fail(function(){
+            console.log('error while trying to get data from server');
+        });
+    },
+    updateIcon: function(){
+        var numNew = countRealLength(notifications.data.notSeen);
+        var imgSrc;
+        if(numNew > 0){
+            $("#numNotifications").text(numNew).show();
+            imgSrc = "img/notificationOn.png";
+        } else {
+            $("#numNotifications").hide();
+            imgSrc = "img/notificationOff.png";
+        }
+        document.getElementById("mainNotiIcon").src = imgSrc;
+
+    },
+    notifClicked: function(rideID){
+        document.getElementById("notifImg" + rideID).src = "img/notificationOff.png";
+    },
+    emptyNotificationsPage: function(){
+        this.$todayContainer.empty();
+        this.$olderContainer.empty();
+    },
+    getCommentedString: function(commenters){
+        if(commenters.length == 1){
+            return "New comment by " + commenters[0].commenter;
+        }
+        return commenters.length + " new comments";
+    },
+    createPage: function(){
+        this.emptyNotificationsPage();
+        var notSeenArr = notifications.data.notSeen;
+
+        for(var i = notSeenArr.length - 1; i >= 0; i--){
+            if(notSeenArr[i]){
+                var info = notifications.getCommentedString(notSeenArr[i]);
+                var time = utils.dateFormatHourMinute(notSeenArr[i][0].lastUpdate);
+                var onOff = "On";
+                var rideID = i;
+                var title = notifications.getTitle(rideID);
+                $comp = notifications.createnotifComponent(title, info, time, onOff, rideID);
+
+                if(utils.isToday(notSeenArr[i][0].lastUpdate)){
+                    this.$todayContainer.append($comp);
+                } else {
+                    this.$olderContainer.append($comp);
+                }
+            }
+        }
+
+        var seenArr = notifications.data.seen;
+        for(var i = 0; i < seenArr.length; i++){
+            var info = notifications.getCommentedString(seenArr[i].box);
+            var time = utils.dateFormatHourMinute(seenArr[i].box[0].lastUpdate);
+            var onOff = "Off";
+            var rideID = seenArr[i].rideID;
+            var title = notifications.getTitle(rideID);
+            $comp = notifications.createnotifComponent(title, info, time, onOff, rideID);
+            if(utils.isToday(seenArr[i].box[0].lastUpdate)){
+                this.$todayContainer.append($comp);
+            } else {
+                this.$olderContainer.append($comp);
+            }
+        }
+    },
+    getTitle: function(rideID){
+        var ride = rides.data[rideID];
+        var st = (ride.author == currentUser) ? "Your " : ride.author + "'s ";
+        st+= (ride.role == "driver") ? "ride " : "request ";
+        st+= (ride.type == "toIDC") ? "to IDC" : "from IDC";
+        return st;
+    },
+    getDateDisplay: function(d){
+        if(utils.isToday(d)){
+            return utils.dateFormatHourMinute(d);
+        }
+        return utils.dateFormatter(d);
+    },
+
+    createnotifComponent: function(title, info, time, onOff, rideID){
+        var $title = $('<div class="item-title">' + title + '</div>');
+        var $row = $('<div class="item-title-row"></div>');
+        $row.append($title);
+        var $subt = $('<div class="item-subtitle">' + info +
+            '<span class="timeSpan">' + time + '</span></div>');
+        var $inner = $('<div class="item-inner"></div>');
+        $inner.append($row).append($subt);
+        var $img = $('<div class="item-media"><img id="notifImg' + rideID + '" src="img/notification' + onOff + '.png" width="44"></div>');
+
+        var $a = $('<a href="#ride" class="item-link item-content"></a>');
+        $a.append($img).append($inner);
+        var $li = $('<li class="rideComponent" onClick="ridePage.handler(' + rideID
+            + ');notifications.notifClicked(' + rideID + ')"></li>');
+        $li.append($a);
+        return $li;
+    }
+
 }

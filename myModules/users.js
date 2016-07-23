@@ -1,3 +1,4 @@
+var notifications = require('./notifications');
 var users = [
 	{
 		id :"Sapir",
@@ -8,7 +9,6 @@ var users = [
 		freshmanYear: 2014,
 		graduationYear: 2017,
 		car: null,
-		calc: "0" //remove later
 	},
 	{
 		id: "Barak",
@@ -19,7 +19,6 @@ var users = [
 		freshmanYear: 2015,
 		graduationYear: 2018,
 		car: "Mazda 2",
-		calc: "2", //remove later
 	},
 	{
 		id: "Sivan",
@@ -30,7 +29,6 @@ var users = [
 		freshmanYear: 2015,
 		graduationYear: 2018,
 		car: "Mazda 2",
-		calc: "2", //remove later
 	}
 ];
 function findProfileData(id){
@@ -57,7 +55,6 @@ function find(id){
 	return null;
 }
 
-
 module.exports = {
 	login : function(id, pass){
 		var user = find(id);
@@ -80,5 +77,6 @@ module.exports = {
 	},
 	createUser: function(userObj){
 		users.push(userObj);
+		notifications.userWasCreated(userObj.id);
 	},
 }

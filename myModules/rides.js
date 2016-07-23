@@ -115,9 +115,8 @@ module.exports = {
 		if(ride){
 			res.json(ride);	
 		} else{
-			res.status(402).json("ride wasn't found");
+			res.json("ride wasn't found");
 		}
-		 //TODO check the statuscode
 	},
 	// this function is used when the page loads
 	getFutureData: function(req, res){
@@ -127,5 +126,28 @@ module.exports = {
 	addComment: function(comment, rideID){
 		//console.log(rideID);
 		ridesData[rideID].comments.push(comment);
+	},
+	// Get an array of users who currently follow a ride
+	getFollowers: function(rideID){
+		var ride = this.find(rideID);
+		var arr = new Array();
+		arr.push(ride.author);
+		for (var i = 0; i < ride.comments.length; i++){
+			var userID = ride.comments[i].author;
+			if(arr.indexOf(userID) == -1){
+				arr.push(userID);
+			}
+		}
+		//console.log("followers of ride: " + rideID);
+		//console.log(arr);
+		return arr;
+	},
+	getComments: function(req, res){
+		var ride = ridesData[req.params.id];
+		if(ride){
+			res.json(ride.comments);	
+		} else{
+			res.json("ride wasn't found");
+		}
 	}
 }

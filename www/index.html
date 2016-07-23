@@ -32,7 +32,9 @@
           <div data-page="index" class="navbar-inner">
             
             <div class="left">
-              <a href="#notifications"><img class="notificationIcon" src="img/notificationOn.png" /><span id="notifications">4</span></a>
+              <a href="#notifications" onclick="notifications.createPage()"><img class="notificationIcon" id="mainNotiIcon" src="img/notificationOff.png" />
+                <span id="numNotifications" style="display: none">0</span>
+              </a>
             </div>
             <!-- We have home navbar without left link-->
             <div class="center sliding">IDC Carpool</div>
@@ -131,35 +133,13 @@
 
                 <div class="content-block-title">Today</div>
                   <div class="list-block media-list inset">
-                    <ul>
-                      <li id="ride482" class="rideComponent">
-                        <a href="#ride" class="item-link item-content">
-                          <div class="item-media"><img src="img/notificationOn.png" width="44"></div>
-                          <div class="item-inner">
-                            <div class="item-title-row">
-                              <div class="item-title">Your request to IDC</div>
-                            </div>
-                            <div class="item-subtitle">2 New comments<span class="timeSpan">10:15</span></div>
-                          </div>
-                        </a>
-                      </li>
+                    <ul id="notifToday">
                     </ul>
                   </div>
 
-                <div class="content-block-title">Last week</div>
+                <div class="content-block-title">OLDER</div>
                   <div class="list-block media-list inset">
-                    <ul>
-                      <li id="ride485" class="rideComponent">
-                        <a href="#ride" class="item-link item-content">
-                          <div class="item-media"><img src="img/notificationOff.png" width="44"></div>
-                          <div class="item-inner">
-                            <div class="item-title-row">
-                              <div class="item-title">Sapir's ride</div>
-                            </div>
-                            <div class="item-subtitle">3 New comments <span class="timeSpan">22.7</span></div>
-                          </div>
-                        </a>
-                      </li>
+                    <ul id="notifOlder">
                     </ul>
                   </div>
 
