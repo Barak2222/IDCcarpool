@@ -6,7 +6,7 @@ var CONST = {
 	later: (new Date()).setDate((new Date()).getDate() + 2),
 }
 
-var ridesData = [ // TODO: open from file
+var ridesData = [
 	{
 		id: 0,
 		author: "Sapir", // user ID
@@ -64,10 +64,7 @@ var ridesData = [ // TODO: open from file
 var counter = ridesData.length; //represents ids of rides
 
 function validateRideInput(data){
-	if(true)// TODO check if the given information validates
-		// example: check of date is not in the past
-		return true;
-	return false;
+	return true; // currently everything is supported
 }
 
 function create(obj, user){
@@ -121,10 +118,8 @@ module.exports = {
 	// this function is used when the page loads
 	getFutureData: function(req, res){
 		res.json(ridesData);
-		// TODO: do not return comments data
 	},
 	addComment: function(comment, rideID){
-		//console.log(rideID);
 		ridesData[rideID].comments.push(comment);
 	},
 	// Get an array of users who currently follow a ride
@@ -138,8 +133,6 @@ module.exports = {
 				arr.push(userID);
 			}
 		}
-		//console.log("followers of ride: " + rideID);
-		//console.log(arr);
 		return arr;
 	},
 	getComments: function(req, res){

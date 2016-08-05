@@ -12,17 +12,13 @@ function Comment(author, rideID, message){
 
 module.exports = {
 	init: function(){
-		//TODO: get the real idCounter from file
 	},
 	createComment(req, res){
-		// doto: of body is null return error to client
-
 		var author = req.session.currentUser;
 		var rideID = req.body.rideID;
 		var message = req.body.message;
-		var author = req.session.currentUser;
-		// validate that the data is legal
-		if(/**(rides.find(rideID)) &&*/ message.length > 0 && message.length < 120){
+
+		if(rideID >=0 && message.length > 0 && message.length < 120){
 			notifications.newCommentAdded(author, rideID);
 			var commentObj = new Comment(author, rideID, message);
 			rides.addComment(commentObj, rideID);

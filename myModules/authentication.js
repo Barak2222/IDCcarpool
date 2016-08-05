@@ -11,10 +11,7 @@ var auth = {
 		}
 	},
 	register: function(req, res){
-		//validate the data
 		if (!req.body) return res.sendStatus(400);
-
-		//cannot have 2 user with the same id)
 		if(users.isExist(req.body.username)){
 			res.json("exist");
 		}

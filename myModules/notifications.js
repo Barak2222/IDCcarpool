@@ -19,8 +19,6 @@ var data = {
 var counter = 0;
 
 var addNotification = function(follower, rideID, commenter){
-	//console.log("addNotification func called");
-	//console.log("params: " + follower + ", " + rideID + ", " + commenter);
 	if(!data[follower].notSeen[rideID]){
 		data[follower].notSeen[rideID] = new Array(); 
 	}
@@ -32,8 +30,6 @@ var addNotification = function(follower, rideID, commenter){
 
 
 var notifySeen = function(user, rideID){
-	//console.log("notifySeen Func");
-	//console.log("params: " + user + ", " + rideID);
 	if(!data[user]){
 		return ;
 	}
@@ -55,10 +51,11 @@ module.exports = {
 		notifySeen(req.session.currentUser, req.params.id);// id is rideID
 		next();
 	},
+	sendOk: function(req, res){
+		res.json("true");
+	},
 	newCommentAdded: function(commenter, rideID){
 		var followers = rides.getFollowers(rideID);
-		//console.log("followersArr: ");
-		//console.log(followers);
 		for(var i = 0; i < followers.length; i++){
 			if(followers[i] != commenter){
 				addNotification(followers[i], rideID, commenter);

@@ -44,7 +44,6 @@ utils = {
         if(d1.getMonth() != d2.getMonth()){ return false; }
         return true;
     },
-    // TODO: check if works and use this to validate that input is good
     isOld(d){
         var yesturday = new Date();
         yesturday.setDate(yesturday.getDate() - 1);
@@ -74,6 +73,9 @@ var navigation = {
 
 
 $(document).ready(function(){
+    $(".back").on('click', function(){
+        ridePage.current = null;
+    });
     $('#logoutB').on('click', logout);
     $("#commentForm").on('submit', comments.createCommentHandler);
     $.getJSON( "/www/futureRides", function(data) {
@@ -206,7 +208,7 @@ var ridePage = {
             }
             $.getJSON("/www/getComments/" + ridePage.current, function(data) {
                 if(data.length != ridePage.data.comments.length){
-                    ridePage.tempIdx = ridePage.data.comments.length;// delete this?
+                    ridePage.tempIdx = ridePage.data.comments.length;
                     ridePage.data.comments = data;
                     comments.init(data);
                 }
@@ -219,6 +221,14 @@ var ridePage = {
     handler: function(rideID){
         ridePage.current = rideID;
         var data = this.getData(rideID);
+    },
+    handleNotificationsForCurrentPage: function(){
+        $.getJSON( "/www/notifications/notify/" + ridePage.current, function( data ) {
+        })
+        .fail(function(){
+            console.log('error while trying to get data from server');
+        })
+
     },
     getData: function(rideID){
         $.getJSON( "/www/getRide/" + rideID, function( data ) {
@@ -280,7 +290,7 @@ var comments = {
     empty: function(){
         $("#commentsSec").empty();
     },
-    incoming: function(arr){// DELETE THIS!!
+    incoming: function(arr){
         if(!ridePage.tempIdx){
             return ;
         }
@@ -290,6 +300,9 @@ var comments = {
         ridePage.tempIdx = null;
     },
     init: function(arr){
+        if(arr.length != document.getElementById("commentsSec").childNodes.length){
+            ridePage.handleNotificationsForCurrentPage();
+        }
         comments.empty();
         for (var i = 0; i < arr.length; i++) {
             this.createCommentComponent(arr[i]);
